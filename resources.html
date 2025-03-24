@@ -1,4 +1,3 @@
-<!-- resources.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,75 +7,111 @@
 
   <!-- Material Design Lite CSS -->
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-  <!-- Material Icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css">
 
-  <!-- MDL JS -->
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFktVaqsJpTL9Ky9LwkJ-svIz5Z4jpI78",
+      authDomain: "chat-app-10f08.firebaseapp.com",
+      projectId: "chat-app-10f08",
+      storageBucket: "chat-app-10f08.appspot.com",
+      messagingSenderId: "808466604950",
+      appId: "1:808466604950:web:23a3a826bc5c6d2f5bb3b7",
+      measurementId: "G-7YDTGVEKQY",
+      databaseURL: "https://chat-app-10f08-default-rtdb.firebaseio.com"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "login.html";
+      } else if (user.photoURL) {
+        document.getElementById("avatarImg").src = user.photoURL;
+      }
+    });
+  </script>
+
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <script defer src="script.js"></script>
+
+  <style>
+    .avatar-btn {
+      border: none;
+      background: none;
+      cursor: pointer;
+      margin-left: auto;
+    }
+    .avatar-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+  </style>
 </head>
 <body>
-  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <header class="mdl-layout__header">
-      <div class="mdl-layout__header-row">
-        <span class="mdl-layout-title">Resources</span>
-        <div class="mdl-layout-spacer"></div>
-        <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="index.html">Start</a>
-          <a class="mdl-navigation__link" href="rules.html">Rules</a>
-        </nav>
-      </div>
-    </header>
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <button class="avatar-btn" onclick="viewProfile()" style="margin-right: 12px;">
+        <img id="avatarImg" class="avatar-img" src="https://www.gravatar.com/avatar?d=mp" alt="Avatar" />
+      </button>
 
-    <main class="mdl-layout__content">
-      <div class="page-content">
-        <div style="width: 100%; padding: 0;">
-          <div class="mdl-card mdl-shadow--4dp" style="width: 100%; max-width: none; padding: 0; box-sizing: border-box; border-radius: 0;">
+      <span class="mdl-layout-title">Resources</span>
+      <div class="mdl-layout-spacer"></div>
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="index.html">Start</a>
+        <a class="mdl-navigation__link" href="rules.html">Rules</a>
+      </nav>
+    </div>
+  </header>
 
-            <!-- Chat box -->
-            <div id="chatBox" class="mdl-shadow--2dp">
-              <!-- Messages appear here -->
-
-              <!-- FAB and menu options -->
-              <button id="menuBtn" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored"
-                      style="position: absolute; top: 10px; right: 10px;">
-                <i class="material-icons">add</i>
-              </button>
-
-              <div id="menuOptions" style="display: none; position: absolute; top: 60px; right: 10px;">
-                <button id="colorBtn" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab" title="Background color">
-                  <i class="material-icons">palette</i>
-                </button>
-              </div>
-            </div>
-
-            <input type="color" id="colorPicker" style="display: none;" />
-
-            <!-- Text input -->
-            <div class="mdl-textfield mdl-js-textfield" style="width: 100%; padding: 10px; background: #f0f0f0;">
-              <input class="mdl-textfield__input" type="text" id="textInput" placeholder="Type a message..." />
-            </div>
-
-            <!-- Action buttons -->
-            <div style="display: flex; gap: 10px; padding: 10px; background: #f0f0f0;">
-              <button id="sendBtn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-                Send
-              </button>
-
-              <button id="imageBtn" class="mdl-button mdl-js-button mdl-button--raised" title="Upload image">
-                <i class="material-icons">photo_camera</i>
-              </button>
-
-              <input type="file" id="imgUpload" accept="image/*" style="display: none;" />
-            </div>
-
+  <main class="mdl-layout__content">
+    <div class="page-content" style="padding: 20px; width: 100vw; box-sizing: border-box;">
+      <div class="mdl-card mdl-shadow--4dp"
+           style="padding: 20px; width: 80vw; max-width: 80vw; box-sizing: border-box; margin: 0 auto;">
+        <h5>Chat</h5>
+        <div id="chatBoxContainer" style="position: relative; height: calc(100vh - 300px);">
+          <div id="chatBox" style="width: 90%; background: #f9f9f9; border-radius: 8px; padding: 10px; height: 100%; overflow-y: auto;"></div>
+          <button id="menuBtn" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" style="position: absolute; bottom: 10px; right: 10px;">
+            <i class="material-icons">add</i>
+          </button>
+          <div id="menuOptions" style="display: none; position: absolute; bottom: 60px; right: 10px;">
+            <button id="colorBtn" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab" title="Background color">
+              <i class="material-icons">palette</i>
+            </button>
           </div>
         </div>
-      </div>
-    </main>
-  </div>
 
-  <script src="script.js"></script>
+        <input type="color" id="colorPicker" style="display: none;" />
+
+        <div class="mdl-textfield mdl-js-textfield" style="width: 100%; margin-top: 20px;">
+          <input class="mdl-textfield__input" type="text" id="textInput" placeholder="Type a message..." />
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button id="sendBtn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Send</button>
+          <button id="imageBtn" class="mdl-button mdl-js-button mdl-button--raised" title="Upload image">
+            <i class="material-icons">photo_camera</i>
+          </button>
+          <input type="file" id="imgUpload" accept="image/*" style="display: none;" />
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function viewProfile() {
+      const user = firebase.auth().currentUser;
+      if (user) {
+        const name = user.displayName || "No name";
+        const email = user.email;
+        alert(`Logged in as:\n${name}\n${email}`);
+      }
+    }
+  </script>
 </body>
 </html>
