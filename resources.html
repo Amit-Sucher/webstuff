@@ -51,6 +51,18 @@
       height: 40px;
       border-radius: 50%;
     }
+    button, .mdl-button {
+      border-radius: 20px !important;
+      transition: all 0.3s ease;
+    }
+    button:hover, .mdl-button:hover {
+      opacity: 0.9;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .mdl-textfield__input {
+      border-radius: 10px;
+      padding: 10px;
+    }
   </style>
 </head>
 <body>
@@ -72,10 +84,10 @@
   <main class="mdl-layout__content">
     <div class="page-content" style="padding: 20px; width: 100vw; box-sizing: border-box;">
       <div class="mdl-card mdl-shadow--4dp"
-           style="padding: 20px; width: 80vw; max-width: 80vw; box-sizing: border-box; margin: 0 auto;">
+           style="padding: 20px; width: 80vw; max-width: 80vw; box-sizing: border-box; margin: 0 auto; border-radius: 20px;">
         <h5>Chat</h5>
         <div id="chatBoxContainer" style="position: relative; height: calc(100vh - 300px);">
-          <div id="chatBox" style="width: 90%; background: #f9f9f9; border-radius: 8px; padding: 10px; height: 100%; overflow-y: auto;"></div>
+          <div id="chatBox" style="width: 90%; background: #f9f9f9; border-radius: 16px; padding: 10px; height: 100%; overflow-y: auto;"></div>
           <button id="menuBtn" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" style="position: absolute; bottom: 10px; right: 10px;">
             <i class="material-icons">add</i>
           </button>
